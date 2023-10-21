@@ -10,3 +10,13 @@ export async function fetchPokemonDetails(url){
         const response = await axios.get(url);
         return response.data;
 }
+
+export async function searchPokemonByName(name) {
+      const response = await axios.get(`${BASE_URL}/pokemon/${name}`);
+      return [response.data]; 
+}
+
+export async function filterTypes(type){
+    const response = await axios.get(`${BASE_URL}/type/${type}`);
+    return response.data;
+}

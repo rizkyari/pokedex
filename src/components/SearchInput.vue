@@ -5,7 +5,7 @@
             class="form-control"
             type="text"
             placeholder="Search Pokemon"
-            @input="handleSearch"
+            @keyup.enter="handleSearch"
         />
         <button class="btn btn-primary" @click="handleSearch" type="button">
             <i class="bi bi-search"></i>
@@ -14,11 +14,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 
+const emit = defineEmits(['handle-search'])
 const searchTerm = ref('');
 const handleSearch = () => {
-    console.log(searchTerm.value);
+    emit('handle-search', searchTerm.value)
 }
 </script>
 
