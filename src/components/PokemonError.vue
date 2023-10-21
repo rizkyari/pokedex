@@ -16,7 +16,7 @@ const resetPokemon = (async() => {
     pokemonStore.isSearchError = false;
     pokemonStore.filterPokemon = [];
     await pokemonStore.populatePokemonList();
-    await pokemonStore.populatePokemonDetails();
+    await pokemonStore.populatePokemons();
 })
 </script>
 

@@ -20,3 +20,8 @@ export async function filterTypes(type){
     const response = await axios.get(`${BASE_URL}/type/${type}`);
     return response.data;
 }
+
+export async function getMore(offset){
+        const response = await axios.get(`${BASE_URL}/pokemon?limit=20&offset=${offset}`);
+        return response.data.results;
+}
