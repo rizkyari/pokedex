@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 import {ref} from 'vue';
-import { fetchPokemonList, fetchPokemonDetails, searchPokemonByName, filterTypes} from '@/utils/api';
+import {  fetchPokemonList,fetchPokemonDetails, searchPokemonByName, filterTypes, getMore} from '@/utils/api';
 
 export const usePokemonStore = defineStore('pokemon', () => {
     const pokemonList = ref([]);
@@ -8,6 +8,8 @@ export const usePokemonStore = defineStore('pokemon', () => {
     const isLoading = ref(false);
     const isSearchPokemon = ref(false);
     const isSearchError = ref(false);
+    const isLoadingMore = ref(false);
+    let lastDetailsLoaded = 0;
 
     async function populatePokemonList(){
         isLoading.value = true;
@@ -21,6 +23,24 @@ export const usePokemonStore = defineStore('pokemon', () => {
 
     async function populatePokemonDetails(){
         await Promise.all(
+            pokemonList.value.slice(lastDetailsLoaded, pokemonList.value.length).map(async (pokemon) => {
+                try {
+                    const details = await fetchPokemonDetails(pokemon.url);
+                    pokemon.details = details;
+                    lastDetailsLoaded++;
+                    isLoading.value = false;
+                } catch(err) {
+                    console.error('Error fetching pokemon details: ', err)
+                    isLoading.value = false;
+                    isSearchError.value = true;
+                    isLoadingMore.value = false;
+                }
+            })
+        )
+    }
+
+    async function populatePokemons(){
+        await Promise.all(
             pokemonList.value.map(async (pokemon) => {
                 try {
                     const details = await fetchPokemonDetails(pokemon.url);
@@ -33,6 +53,17 @@ export const usePokemonStore = defineStore('pokemon', () => {
                 }
             })
         )
+    }
+
+    async function loadMorePokemon(){
+        isSearchError.value = false;
+        const offset = pokemonList.value.length;
+        try {
+            const newPokemonData = await getMore(offset);
+            pokemonList.value = [...pokemonList.value, ...newPokemonData];
+        } catch(error){
+            console.error('Error fetching pokemon list:', error)
+        }
     }
 
     async function searchPokemon(name) {
@@ -85,11 +116,14 @@ export const usePokemonStore = defineStore('pokemon', () => {
         filterPokemon,
         isSearchPokemon,
         isLoading,
+        isLoadingMore,
         isSearchError,
         populatePokemonList,
         populatePokemonDetails,
+        populatePokemons,
         searchPokemon,
         filterType,
         populatePokemonFilters,
+        loadMorePokemon,
     }
 })
