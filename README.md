@@ -58,8 +58,8 @@ This is a simple Vue.js project that simulates a Pokedex, allowing you to search
 
 ## How To Use
 - Use the search box to find Pokemon by name.
-- Click on a Pokemon to view detailed information.
-- Use the filter options to filter Pokemon by type.
+- Click on a Pokemon Details button to view detailed information.
+- Use the filter badge, click to filter Pokemon by type.
 
 ## Run Tests
 This project includes unit tests for components using Vue Test Utils and Jest. To run the tests:
