@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PokeballSpinner matches snapshot 1`] = `
+<div>
+  <div class="body-wrapper">
+    <div class="pokemon"></div>
+  </div>
+</div>
+<div class="my-3">
+  <h3>Please Wait...</h3>
+</div>
+`;

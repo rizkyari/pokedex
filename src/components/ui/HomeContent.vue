@@ -1,6 +1,6 @@
 <template>
     <div class="home-content">
-            <div v-if="pokemonStore.isLoading">
+            <div v-if="pokemonStore.isLoading" class="mt-5">
                 <pokeball-spinner/>
             </div>
             <div v-else>
