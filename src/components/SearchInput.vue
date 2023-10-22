@@ -19,7 +19,8 @@ import { ref, defineEmits } from 'vue';
 const emit = defineEmits(['handle-search'])
 const searchTerm = ref('');
 const handleSearch = () => {
-    emit('handle-search', searchTerm.value)
+    emit('handle-search', searchTerm.value);
+    searchTerm.value = ''
 }
 </script>
 
